@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addToDo } from 'redux/slice';
 import {
   Container,
   Grid,
@@ -34,25 +35,25 @@ import {
 //   }
 
 //   addTodo = text => {
-//     const todo = {
-//       id: nanoid(),
-//       text,
-//     };
+// const todo = {
+//   id: nanoid(),
+//   text,
+//  };
 
 //     this.setState(({ todos }) => ({
 //       todos: [...todos, todo],
 //     }));
 //   };
 
-//   handleSubmit = data => {
+// handleSubmit = data => {
 //     this.addTodo(data);
 //   };
 
-//   deleteTodo = id => {
-//     this.setState(prevState => ({
-//       todos: prevState.todos.filter(todo => todo.id !== id),
-//     }));
-//   };
+// deleteTodo = id => {
+//   this.setState(prevState => ({
+//     todos: prevState.todos.filter(todo => todo.id !== id),
+//   }));
+// };
 
 //   render() {
 //     const { todos } = this.state;
@@ -89,37 +90,46 @@ import {
 // }
 
 export const App = () => {
-  const [todos, setTodos] = useState([]);
-  useEffect(() => {
-    
-  })
+  const todos = useSelector(state => state.items);
+  const dispatch = useDispatch();
+
+  const handleSubmit = text => {
+    const todo = {
+      id: nanoid(),
+      text,
+    };
+
+    dispatch(addToDo(todo));
+  };
+
+  const deleteTodo = id => {};
 
   return (
-      <>
-        <Header />
-        <Section>
-          <Container>
-            <SearchForm onSubmit={this.handleSubmit} />
+    <>
+      <Header />
+      <Section>
+        <Container>
+          <SearchForm onSubmit={handleSubmit} />
 
-            {todos.length === 0 && (
-              <Text textAlign="center">There are no any todos ... </Text>
-            )}
+          {todos.length === 0 && (
+            <Text textAlign="center">There are no any todos ... </Text>
+          )}
 
-            <Grid>
-              {todos.length > 0 &&
-                todos.map((todo, index) => (
-                  <GridItem key={todo.id}>
-                    <Todo
-                      id={todo.id}
-                      text={todo.text}
-                      counter={index + 1}
-                      onClick={this.deleteTodo}
-                    />
-                  </GridItem>
-                ))}
-            </Grid>
-          </Container>
-        </Section>
-      </>
-    );
-}
+          <Grid>
+            {todos.length > 0 &&
+              todos.map((todo, index) => (
+                <GridItem key={todo.id}>
+                  <Todo
+                    id={todo.id}
+                    text={todo.text}
+                    counter={index + 1}
+                    onClick={deleteTodo}
+                  />
+                </GridItem>
+              ))}
+          </Grid>
+        </Container>
+      </Section>
+    </>
+  );
+};
