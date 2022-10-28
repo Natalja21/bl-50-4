@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToDo } from 'redux/slice';
+import { addToDo, removeTodo } from 'redux/slice';
 import {
   Container,
   Grid,
@@ -102,7 +102,11 @@ export const App = () => {
     dispatch(addToDo(todo));
   };
 
-  const deleteTodo = id => {};
+  const deleteTodo = id => {
+    console.log("🚀 ~ id", id)
+     
+  dispatch(removeTodo(id))
+  };
 
   return (
     <>
